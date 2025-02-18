@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  hello-job:
+    docker:
+      - image: cimg/base:2025.02
+    steps:
+      - checkout
+      - run: echo "I am running a job"
+
+workflows:
+  pr-opened:
+    when: pipeline.event.action == "opened"
+    jobs:
+      - hello-job

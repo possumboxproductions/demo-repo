@@ -14,6 +14,6 @@ workflows:
     jobs:
       - hello-job
   pr-merged:
-    when: pipeline.event.action == "closed" and pipeline.trigger_parameters.github_app.pull_request_merged == true
+    when: pipeline.event.action == "closed"
     jobs:
       - hello-job

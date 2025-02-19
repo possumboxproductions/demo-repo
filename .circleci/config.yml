@@ -17,3 +17,7 @@ workflows:
     when: pipeline.event.action == "closed" and pipeline.trigger_parameters.github_app.pull_request_merged
     jobs:
       - hello-job
+  pr-labeled:
+    when: pipeline.event.action == "labeled"
+    jobs:
+      - hello-job

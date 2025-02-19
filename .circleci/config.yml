@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  hello-job:
+  sync-job:
     docker:
       - image: cimg/base:2025.02
     steps:
@@ -37,6 +37,10 @@ jobs:
       - run: echo "Running on main branch"
 
 workflows:
+  pr-sync-event:
+    when: pipeline.event.action == "synchronize"
+    jobs:
+      - sync-job
   pr-opened:
     when: pipeline.event.action == "opened"
     jobs:

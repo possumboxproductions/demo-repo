@@ -21,3 +21,7 @@ workflows:
     when: pipeline.event.action == "labeled"
     jobs:
       - hello-job
+  run-on-main:
+    when: pipeline.git.branch == "main"
+    jobs:
+      - hello-job

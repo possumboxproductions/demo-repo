@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  pr-merged-job:
+    docker:
+      - image: cimg/base:2025.02
+    steps:
+      - checkout
+      - run: echo "PR merged job running"
+
+workflows:
+  pr-merged:
+    when: pipeline.event.action == "closed" and pipeline.trigger_parameters.github_app.pull_request_merged
+    jobs:
+      - pr-merged-job
+

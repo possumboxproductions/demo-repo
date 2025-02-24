@@ -1,2 +1,1 @@
-# demo-repo test
-test
+# demo-repo

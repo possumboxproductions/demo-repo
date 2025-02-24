@@ -1,0 +1,15 @@
+version: 2.1
+
+jobs:
+  pr-labeled-job:
+    docker:
+      - image: cimg/base:2025.02
+    steps:
+      - checkout
+      - run: echo "PR labeled job running"
+
+workflows:
+  pr-labeled:
+    when: pipeline.event.action == "labeled"
+    jobs:
+      - pr-labeled-job

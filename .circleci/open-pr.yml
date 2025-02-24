@@ -1,0 +1,18 @@
+version: 2.1
+
+jobs:
+  pr-opened-job:
+    docker:
+      - image: cimg/base:2025.02
+    steps:
+      - checkout
+      - run: echo "PR opened job running"
+
+      - run: echo "Running on main branch"
+
+workflows:
+  pr-opened:
+    when: pipeline.event.action == "opened"
+    jobs:
+      - pr-opened-job
+

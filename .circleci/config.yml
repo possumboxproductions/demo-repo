@@ -1,33 +1,12 @@
 version: 2.1
 
 jobs:
-  hello-job:
+  sync-job:
     docker:
       - image: cimg/base:2025.02
     steps:
       - checkout
       - run: echo "I am running a job"
-
-  pr-opened-job:
-    docker:
-      - image: cimg/base:2025.02
-    steps:
-      - checkout
-      - run: echo "PR opened job running"
-
-  pr-merged-job:
-    docker:
-      - image: cimg/base:2025.02
-    steps:
-      - checkout
-      - run: echo "PR merged job running"
-
-  pr-labeled-job:
-    docker:
-      - image: cimg/base:2025.02
-    steps:
-      - checkout
-      - run: echo "PR labeled job running"
 
   run-on-main-job:
     docker:
@@ -37,18 +16,10 @@ jobs:
       - run: echo "Running on main branch"
 
 workflows:
-  pr-opened:
-    when: pipeline.event.action == "opened"
+  pr-sync-event:
+    when: pipeline.event.action == "synchronize"
     jobs:
-      - pr-opened-job
-  pr-merged:
-    when: pipeline.event.action == "closed" and pipeline.trigger_parameters.github_app.pull_request_merged
-    jobs:
-      - pr-merged-job
-  pr-labeled:
-    when: pipeline.event.action == "labeled"
-    jobs:
-      - pr-labeled-job
+      - sync-job
   run-on-main:
     when: pipeline.git.branch == "main"
     jobs:

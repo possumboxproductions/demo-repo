@@ -14,6 +14,12 @@ jobs:
     steps:
       - checkout
       - run: echo "Running on main branch"
+  should-only-run-on-specific-conditions:
+      docker:
+      - image: cimg/base:2025.02
+    steps:
+      - checkout
+      - run: echo "only run on specific conditions"
 
 workflows:
   pr-sync-event:
@@ -24,3 +30,10 @@ workflows:
     when: pipeline.git.branch == "main"
     jobs:
       - run-on-main-job
+  run-on-pr:
+    when:
+      or:
+        - << pipeline.event.name >> == "pull_request" and << pipeline.event.action >> == "labeled"
+        - << pipeline.event.name >> == "pull_request" and << pipeline.event.action >> == "synchronize"
+    jobs:
+      - should-only-run-on-specific-conditions

@@ -34,7 +34,7 @@ workflows:
   run-on-pr:
     when:
       or:
-        - << pipeline.event.name >> == "pull_request" and << pipeline.event.action >> == "labeled"
-        - << pipeline.event.name >> == "pull_request" and << pipeline.event.action >> == "synchronize"
+        - << pipeline.event.action >> == "labeled"
+        - << pipeline.event.action >> == "synchronize"
     jobs:
       - should-only-run-on-specific-conditions

@@ -34,7 +34,7 @@ workflows:
   run-on-pr:
     when:
       or:
-        - equal: [<< pipeline.event.action >>, "labeled"]
-        - equal: [<< pipeline.event.action >>, "synchronize"]
+        - equal: [<< pipeline.event.action >>, labeled]
+        - equal: [<< pipeline.event.action >>, synchronize]
     jobs:
       - should-only-run-on-specific-conditions

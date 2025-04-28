@@ -1,40 +1,22 @@
-lversion: 2.1
+version: 2.1
 
 jobs:
-  sync-job:
+  hello-job:
     docker:
-      - image: cimg/base:2025.02
+      - image: cimg/node:17.2.0
     steps:
       - checkout
-      - run: echo "I am running a job"
-
-  run-on-main-job:
-    docker:
-      - image: cimg/base:2025.02
-    steps:
-      - checkout
-      - run: echo "Running on main branch"
-
-  should-only-run-on-specific-conditions:
-      docker:
-      - image: cimg/base:2025.02
-      steps:
-      - checkout
-      - run: echo "only run on specific conditions"
+      - run: echo "TRIGGER REPO"
 
 workflows:
-  pr-sync-event:
-    when: pipeline.event.action == "synchronize"
+  my-workflow:
     jobs:
-      - sync-job
-  run-on-main:
-    when: pipeline.git.branch == "main"
+      - hello-job
+  tagged-build:
     jobs:
-      - run-on-main-job
-  run-on-pr:
-    when:
-      or:
-        - equal: [<< pipeline.event.action >>, labeled]
-        - equal: [<< pipeline.event.action >>, synchronize]
-    jobs:
-      - should-only-run-on-specific-conditions
+      - hello-job:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
